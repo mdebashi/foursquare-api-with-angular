@@ -31,6 +31,8 @@ gulp.task('get-scripts', function(){
 	.pipe(plumber())
 	.pipe(gulp.dest('app/js'))
 })
+
+//	make scripts ready for build
 gulp.task('scripts', ['get-scripts'], function(){
 	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
 	.pipe(plumber())
@@ -40,18 +42,22 @@ gulp.task('scripts', ['get-scripts'], function(){
 });
 
 //
+//	Bootstrap fonts
+//
+gulp.task('fonts', function(){
+	gulp.src([nodeModules + '/bootstrap-less/fonts/**/*'])
+	.pipe(gulp.dest('app/fonts'));
+});
+//
 //	LESS Task
 //
-
-//	Custom less to css
-gulp.task('less', function(){
+gulp.task('less', ['fonts'], function(){
 	gulp.src(['app/less/**/*.less'])
 	.pipe(plumber())
 	.pipe(less({
 		paths: [
 		'.',
-		'./node_modules/bootstrap-less',
-		'./app/less/**/*.less'
+		'./node_modules/bootstrap-less'
 		]
 	}))
 	.pipe(autoprefixer('last 2 versions'))
