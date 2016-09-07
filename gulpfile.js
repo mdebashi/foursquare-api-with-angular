@@ -9,7 +9,8 @@ var gulp = require('gulp'),
 	plumber = require('gulp-plumber'),
 	autoprefixer = require('gulp-autoprefixer')
     browserSync = require('browser-sync'),
-    del = require('del')
+    del = require('del'),
+    nodeModules = "node_modules/"
     reload = browserSync.reload;
 
 //
@@ -23,21 +24,35 @@ gulp.task('html', function(){
 //
 //  Scripts Task
 //
-gulp.task('scripts', function(){
+
+//	get scripts
+gulp.task('get-scripts', function(){
+	gulp.src([nodeModules + 'jquery/dist/jquery.min.js', nodeModules + 'bootstrap-less/js/bootstrap.min.js', nodeModules + 'angular/angular.min.js'])
+	.pipe(plumber())
+	.pipe(gulp.dest('app/js'))
+})
+gulp.task('scripts', ['get-scripts'], function(){
 	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
 	.pipe(plumber())
-	.pipe(rename({suffix:'.min'}))
 	.pipe(uglify())
+	.pipe(rename({suffix:'.min'}))
 	.pipe(gulp.dest('app/js'));
 });
+
 //
 //	LESS Task
 //
+
+//	Custom less to css
 gulp.task('less', function(){
 	gulp.src(['app/less/**/*.less'])
 	.pipe(plumber())
 	.pipe(less({
-		paths: [ path.join(__dirname, 'less', 'includes') ]
+		paths: [
+		'.',
+		'./node_modules/bootstrap-less',
+		'./app/less/**/*.less'
+		]
 	}))
 	.pipe(autoprefixer('last 2 versions'))
 	.pipe(gulp.dest('app/css'))
