@@ -2,12 +2,9 @@
 //  Required
 //
 var gulp = require('gulp'),
-    uglify = require('gulp-uglify'),
-    rename = require('gulp-rename'),
     less = require('gulp-less'),
 	path = require('path'),
 	plumber = require('gulp-plumber'),
-	autoprefixer = require('gulp-autoprefixer')
     browserSync = require('browser-sync'),
     del = require('del'),
     nodeModules = "node_modules/"
@@ -97,14 +94,13 @@ gulp.task('default', ['scripts','browser-sync', 'less', 'html', 'watch']);
 
 // Clear out everything from the build folder
 gulp.task('build:cleanfolder', function(cb) {
-	del(['build/**']);
-	cb();
+	del(['build/**'], cb());
 });
 
 // Task to create build directory for all files
-gulp.task('build:copy', ['build:cleanfolder'], function() {
+gulp.task('build:copy', ['build:cleanfolder'], function(cb) {
 	return gulp.src('app/**/*/')
-	.pipe(gulp.dest('build/'));
+	.pipe(gulp.dest('build/')), cb();
 });
 
 // task to remove unwanted files from the build folder
@@ -112,9 +108,18 @@ gulp.task('build:copy', ['build:cleanfolder'], function() {
 
 gulp.task('build:remove', ['build:copy'], function(cb) {
 	del([
-			'build/js/!(*.min.js)',
+			'build/js/',
 			'build/less/'
-		], cb);
+		], cb());
 });
 
+//	Build app
 gulp.task('build', ['build:copy', 'build:remove']);
+
+gulp.task('build:serve', ['build:copy', 'build:remove'], function(){
+	browserSync({
+		server:{
+			baseDir: "./build"
+		}
+	})
+});
