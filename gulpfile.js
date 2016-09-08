@@ -24,7 +24,7 @@ gulp.task('html', function(){
 
 //	get scripts
 gulp.task('get-scripts', function(){
-	gulp.src([nodeModules + 'jquery/dist/jquery.min.js', nodeModules + 'bootstrap-less/js/bootstrap.min.js', nodeModules + 'angular/angular.min.js'])
+	gulp.src([nodeModules + 'jquery/dist/jquery.min.js', nodeModules + 'bootstrap-less/js/bootstrap.min.js', nodeModules + 'angular/angular.js'])
 	.pipe(plumber())
 	.pipe(gulp.dest('app/scripts'))
 })
@@ -33,8 +33,6 @@ gulp.task('get-scripts', function(){
 gulp.task('scripts', ['get-scripts'], function(){
 	gulp.src(['app/js/**/*.js', '!app/js/**/*.min.js'])
 	.pipe(plumber())
-	// .pipe(uglify())
-	.pipe(rename({suffix:'.min'}))
 	.pipe(gulp.dest('app/scripts'));
 });
 
@@ -57,7 +55,6 @@ gulp.task('less', ['fonts'], function(){
 		'./node_modules/bootstrap-less'
 		]
 	}))
-	.pipe(autoprefixer('last 2 versions'))
 	.pipe(gulp.dest('app/css'))
 	.pipe(reload({stream:true}));
 })
