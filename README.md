@@ -30,7 +30,7 @@ Build the project
 gulp build
 ```
 
-Serve the final build the project
+Serve the final build
 ```sh
 gulp build:serve
 ```
