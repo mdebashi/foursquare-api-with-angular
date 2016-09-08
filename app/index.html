@@ -32,7 +32,7 @@
 
 </head>
 
-<body>
+<body ng-app="myApp">
 
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -46,47 +46,37 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container" ng-app="myApp">
+   <div class="container"  ng-controller="VenueSearchController as venueSearchController">
 
-        <div class="row">
+        <div id="venue-search" class="row">
             <div class="col-lg-12 text-center">
                 <h1>Whitbread Product Developer Test</h1>
             </div>
             <div class="col-lg-12">
                 <label for="srch-term">Where do are you going?</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
+                    <input type="text" ng-model="locationSearch"  ng-model-options="{ debounce: 800 }" ng-change="update()" class="form-control" placeholder="Search" name="srch-term" id="srch-term">
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                     </div>
                 </div>
 
-                <div class="list-group">
+                <div class="list-group" ng-if="!venues">
                     <a href="#" class="list-group-item">
                         <h5 class="list-group-item-heading">Loading...</h5>
-                        <p class="list-group-item-text">Please wait while we fetch the list</p>
+                        <p class="list-group-item-text">There might be something wrong here</p>
+                    </a>
+                </div>
+
+                <div class="list-group" ng-if="venues">
+                    <a href="#" class="list-group-item" ng-repeat="venue in venues">
+                        <h5 class="list-group-item-heading">{{ venue.name }}</h5>
+                        <p class="list-group-item-text">{{ venue.location.address }}, {{ venue.location.city }}, {{ venue.location.postalCode }}</p>
                     </a>
                 </div>
             </div>
         </div>
         <!-- /.row -->
-        <div class="container" ng-app="myApp" ng-controller="VenueSearchController as venueSearchController">
-
-          <div id="venue-search">
-              <input type="text" id="" ng-model="locationSearch"  ng-model-options="{ debounce: 800 }" ng-change="update()" class="form-control" placeholder="Place of interest" autofocus />
-              <span class="input-group-addon bar-style"><i class="glyphicon glyphicon-search"></i></span>
-          </div>
-
-            <div ng-if="!venues">
-              <h4>Loading results...</h4>
-            </div>
-            <h2>List of Venues: </h2>
-            <div ng-repeat="venue in venues">
-              <div class="venue-name">{{ venue.name }}</div>
-              <div class="venue-address">{{ venue.location.address }}, {{ venue.location.postalCode }}</div>
-            </div>
-        </div>
-
     </div>
     <!-- /.container -->
 
