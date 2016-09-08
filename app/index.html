@@ -46,7 +46,7 @@
     </nav>
 
     <!-- Page Content -->
-    <div class="container">
+    <div class="container" ng-app="myApp">
 
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -70,15 +70,32 @@
             </div>
         </div>
         <!-- /.row -->
+        <div class="container" ng-app="myApp" ng-controller="VenueSearchController as venueSearchController">
+
+          <div id="venue-search">
+              <input type="text" id="" ng-model="locationSearch"  ng-model-options="{ debounce: 800 }" ng-change="update()" class="form-control" placeholder="Place of interest" autofocus />
+              <span class="input-group-addon bar-style"><i class="glyphicon glyphicon-search"></i></span>
+          </div>
+
+            <div ng-if="!venues">
+              <h4>Loading results...</h4>
+            </div>
+            <h2>List of Venues: </h2>
+            <div ng-repeat="venue in venues">
+              <div class="venue-name">{{ venue.name }}</div>
+              <div class="venue-address">{{ venue.location.address }}, {{ venue.location.postalCode }}</div>
+            </div>
+        </div>
 
     </div>
     <!-- /.container -->
 
     <!-- Add Scripts -->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/angular.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/main.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
 
 </body>
 
