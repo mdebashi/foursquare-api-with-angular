@@ -1,6 +1,6 @@
-## Whitbread Dev Test
+## Foursquare API with Angular
 
-Thank you for the opportunity for doing this test, I really enjoyed myself doing it.
+Playing around with angular to access the foursquare api, get the recommended location for a location. This is my first project that I'm posting to github,
 
 ## General Approach
 I wanted to use a css framework so that the code can look presentable without spending too much time on the css. I used Bootstrap.
